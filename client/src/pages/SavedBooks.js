@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Jumbotron, Container, CardColumns, Card, Button } from 'react-bootstrap';
 
-//import { getMe, deleteBook } from '../utils/API';
 import { useQuery, useMutation } from '@apollo/client';
+
+// import { getMe, deleteBook } from '../utils/API';
 import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
+
 import { REMOVE_BOOK } from '../utils/mutations';
 import { GET_ME } from '../utils/queries';
+
 const SavedBooks = () => {
-  //const [userData, setUserData] = useState({});
-  const { loading, userData } = useQuery(GET_ME);
+  // const [userData, setUserData] = useState({});
+  const { loading, data } = useQuery(GET_ME);
   const [removeBook, { error }] = useMutation(REMOVE_BOOK);
 
-  const user = userData?.me || {};
-
-  if(!user?.username) {
+  const userData = data?.me || {};
+  if(!Auth.loggedIn()) {
     return (
       <h3>
         Please log in or sign up to view this page.
@@ -22,8 +24,9 @@ const SavedBooks = () => {
     )
   }
 
+
   // use this to determine if `useEffect()` hook needs to run again
-  //const userDataLength = Object.keys(userData).length;
+  // const userDataLength = Object.keys(userData).length;
 
   // useEffect(() => {
   //   const getUserData = async () => {
@@ -36,16 +39,16 @@ const SavedBooks = () => {
 
   //       const response = await getMe(token);
 
-        // if (!response.ok) {
-        //   throw new Error('something went wrong!');
-        // }
+  //       if (!response.ok) {
+  //         throw new Error('something went wrong!');
+  //       }
 
-    //     const user = await response.json();
-    //     setUserData(user);
-    //   } catch (err) {
-    //     console.error(err);
-    //   }
-    // };
+  //       const user = await response.json();
+  //       setUserData(user);
+  //     } catch (err) {
+  //       console.error(err);
+  //     }
+  //   };
 
   //   getUserData();
   // }, [userDataLength]);
